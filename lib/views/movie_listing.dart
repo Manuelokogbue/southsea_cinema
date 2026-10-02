@@ -34,7 +34,7 @@ class Annabelle extends StatelessWidget{
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-
+          
           const Text('ANNABELLE (2018) (18+)',textAlign: TextAlign.left, style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold, color: cinemaFontWhite)),
 
           LayoutBuilder(builder: (context, constraints) {
@@ -62,14 +62,14 @@ class Annabelle extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 170,
+                width: 180,
                 height: 200,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: const Color.fromARGB(255, 89, 115, 151),
                   borderRadius: BorderRadius.circular(8)
                 ),
-                child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJHd2AqJObsvlsWjqUJ64PXY1Z1ue9_ge0NWnUT6GmYfZTGsgmd98_kU&s=10',width: 200, height: 200, alignment: Alignment.center,),
+                child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJHd2AqJObsvlsWjqUJ64PXY1Z1ue9_ge0NWnUT6GmYfZTGsgmd98_kU&s=10',width: 170, height: 180, alignment: Alignment.center,),
             ),
             const SizedBox(width: 15,),
             const Text('Screen 7 \nShowing from Monday 26th Oct - Friday 30th Oct, 2026.',style: TextStyle(color: cinemaFontWhite, fontWeight: FontWeight.bold, fontSize: 16)),
