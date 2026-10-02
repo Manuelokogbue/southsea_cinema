@@ -47,7 +47,7 @@ class Annabelle extends StatelessWidget{
                 height: 200,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: const Color.fromARGB(255, 89, 115, 151),
                   borderRadius: BorderRadius.circular(8)
                 ),
                 child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJHd2AqJObsvlsWjqUJ64PXY1Z1ue9_ge0NWnUT6GmYfZTGsgmd98_kU&s=10',width: 200, height: 200, alignment: Alignment.center,),
