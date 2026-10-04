@@ -5,5 +5,5 @@ class Movie{
   final String showingDateTime;
   final String imagePath;
 
-  const Movie(this.id,this.name,this.description,this.showingDateTime,this.imagePath);
+  const Movie({required this.id, required this.name, required this.description, required this.showingDateTime, required this.imagePath});
 }
