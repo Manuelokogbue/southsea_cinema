@@ -7,6 +7,7 @@ class Movie{
   final String rating;
   final String duration;
   final int pg;
+  final String genre;
 
-  const Movie({required this.id, required this.name, required this.description, required this.showingDateTime, required this.imagePath, required this.rating, required this.duration, required this.pg});
+  const Movie({required this.id, required this.name, required this.description, required this.showingDateTime, required this.imagePath, required this.rating, required this.duration, required this.pg, required this.genre});
 }
