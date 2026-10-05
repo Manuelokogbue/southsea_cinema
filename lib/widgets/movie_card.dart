@@ -10,29 +10,46 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        color: cinemaBackground,
+        shadowColor: Colors.black,
+        elevation: 20,
         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30.0),
         child: Padding(
-          padding: const EdgeInsetsGeometry.all(5.6),
+          padding: const EdgeInsetsGeometry.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${movie.name}  ${movie.pg.toString()}',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: cinemaBrand),
+              Row(
+                children: [
+                  Text(
+                    movie.name,
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: cinemaBrandDark),
+                  ),
+                  const SizedBox(width: 13),
+                  Text('PG(${movie.pg.toString()})', style: TextStyle(fontSize: 19 ,color: cinemaFontMuted))
+                ],
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(movie.imagePath,
-                      width: 160, height: 200, fit: BoxFit.cover),
+                      width: 190, height: 230, fit: BoxFit.cover),
                   const SizedBox(width: 13),
                   Expanded(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(movie.description)],
+                    children: [
+                      Text(
+                        movie.description,
+                        style: TextStyle(fontSize: 23),
+                      )
+                    ],
                   ))
                 ],
               ),
@@ -41,16 +58,20 @@ class MovieCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(movie.showingDateTime,
-                      style: TextStyle(fontSize: 16, color: cinemaFontWhite)),
+                      style: TextStyle(fontSize: 20, color: cinemaFontWhite)),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3FB5D9),
+                    ),
                     onPressed: () {},
                     child: const Text(
                       'BOOK NOW',
-                      style: TextStyle(fontSize: 23, color: cinemaFontWhite),
-                    )
+                      style: TextStyle(fontSize: 21, color: cinemaFontWhite),
+                    ),
                   )
                 ],
-              )
+              ),
+              const SizedBox(height: 10)
             ],
           ),
         ));
