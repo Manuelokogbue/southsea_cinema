@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
+import 'package:southsea_cinema/screens/menu_screen.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
 
 class MovieListing extends StatelessWidget {
@@ -15,7 +16,7 @@ class MovieListing extends StatelessWidget {
         elevation: 0,
       ),
       drawer: const NavDrawer(),
-      body: Annabelle(5),
+      body: MenuScreen(),
     );
   }
 }
@@ -91,7 +92,7 @@ class Annabelle extends StatelessWidget {
                       width: 15,
                     ),
                     const Text(
-                        'Screen 7 \nShowing from Monday 26th Oct - Friday 30th Oct, 2026.',
+                        'Screen 7 \nShowing Friday 30th Oct, 2026.',
                         style: TextStyle(
                             color: cinemaFontWhite,
                             fontWeight: FontWeight.bold,
