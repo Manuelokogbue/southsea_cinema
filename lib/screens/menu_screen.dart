@@ -11,16 +11,11 @@ class MenuScreen extends StatelessWidget {
     final MovieRepository repository = MovieRepository();
     final List<Movie> movies = repository.getMovies();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Southsea Cinema')
-      ),
-      body: ListView.builder(
+    return ListView.builder(
         itemCount: movies.length,
         itemBuilder: (context, index) {
           return MovieCard(movie: movies[index]);
         },
-      ),
     );
   }
 }
