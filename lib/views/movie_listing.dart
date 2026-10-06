@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
-import 'package:southsea_cinema/screens/menu_screen.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
+import 'package:southsea_cinema/models/movie.dart';
 
 class MovieListing extends StatelessWidget {
-  const MovieListing({super.key});
+  final Movie movie;
+
+  const MovieListing({required this.movie,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +18,16 @@ class MovieListing extends StatelessWidget {
         elevation: 0,
       ),
       drawer: const NavDrawer(),
-      body: MenuScreen(),
+      body: MovieBooking(movie),
     );
   }
 }
 
-class Annabelle extends StatelessWidget {
-  final int maxTickets;
 
-  const Annabelle(this.maxTickets, {super.key});
+class MovieBooking extends StatelessWidget {
+  final Movie movie;
+
+  const MovieBooking(this.movie, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +37,9 @@ class Annabelle extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('ANNABELLE (2018) (18+)',
+            Text(movie.name,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: cinemaFontWhite)),
@@ -52,8 +55,8 @@ class Annabelle extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 89, 115, 151),
                           borderRadius: BorderRadius.circular(8)),
-                      child: Image.network(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJHd2AqJObsvlsWjqUJ64PXY1Z1ue9_ge0NWnUT6GmYfZTGsgmd98_kU&s=10',
+                      child: Image.asset(
+                        movie.imagePath,
                         width: 200,
                         height: 200,
                         alignment: Alignment.center,
@@ -62,11 +65,11 @@ class Annabelle extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                          'Screen 7 \nShowing from Monday 26th Oct - Friday 30th Oct, 2026.',
+                          movie.showingDateTime,
                           style:
-                              TextStyle(fontSize: 16, color: cinemaFontWhite)),
+                              const TextStyle(fontSize: 16, color: cinemaFontWhite)),
                     ),
                   ],
                 );
@@ -81,8 +84,8 @@ class Annabelle extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 89, 115, 151),
                           borderRadius: BorderRadius.circular(8)),
-                      child: Image.network(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJHd2AqJObsvlsWjqUJ64PXY1Z1ue9_ge0NWnUT6GmYfZTGsgmd98_kU&s=10',
+                      child: Image.asset(
+                        movie.imagePath,
                         width: 170,
                         height: 180,
                         alignment: Alignment.center,
@@ -91,9 +94,8 @@ class Annabelle extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    const Text(
-                        'Screen 7 \nShowing Friday 30th Oct, 2026.',
-                        style: TextStyle(
+                    Text(movie.showingDateTime,
+                        style: const TextStyle(
                             color: cinemaFontWhite,
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
@@ -102,23 +104,25 @@ class Annabelle extends StatelessWidget {
               }
             }),
             const SizedBox(height: 6),
-            const Text(
-                'After a young couple loses their child, paranormal happenings begin to plague their home. \n2hrs 45mins | Horror | IMDB Rating: 4.67',
+            Text(
+                '${movie.name}, \n ${movie.duration} | ${movie.genre} | ${movie.rating}',
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 16,
                     height: 2,
                     fontWeight: FontWeight.bold,
                     color: cinemaFontWhite)),
             const SizedBox(height: 10),
-            const Order()
+            Order(movie:movie)
           ],
         ));
   }
 }
 
 class Order extends StatefulWidget {
-  const Order({super.key});
+  final Movie movie;
+
+  const Order({super.key, required this.movie});
 
   @override
   State<Order> createState() {
@@ -131,37 +135,41 @@ class _Orders extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        DropdownMenu<int>(
-            initialSelection: maxTickets,
-            onSelected: (int? value) {
-              if (value != null) {
-                setState(() {
-                  maxTickets = value;
-                });
-              }
-            },
-            dropdownMenuEntries: const [
-              DropdownMenuEntry(value: 1, label: '1'),
-              DropdownMenuEntry(value: 2, label: '2'),
-              DropdownMenuEntry(value: 3, label: '3'),
-              DropdownMenuEntry(value: 4, label: '4'),
-              DropdownMenuEntry(value: 5, label: '5'),
-            ]),
-        const SizedBox(width: 8),
-        const Text('Adult (£7.50)'),
-        const SizedBox(width: 5),
-        const Text('*Discounts will be applied at checkout.',
-            style: TextStyle(fontSize: 9))
-      ]),
-      SizedBox(height: 10),
-      ElevatedButton(
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Added $maxTickets ticket(s) to cart!')));
-          },
-          child: const Text('Add to order')),
-    ]);
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Book ${widget.movie.name}'),
+        ),
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            DropdownMenu<int>(
+                initialSelection: maxTickets,
+                onSelected: (int? value) {
+                  if (value != null) {
+                    setState(() {
+                      maxTickets = value;
+                    });
+                  }
+                },
+                dropdownMenuEntries: const [
+                  DropdownMenuEntry(value: 1, label: '1'),
+                  DropdownMenuEntry(value: 2, label: '2'),
+                  DropdownMenuEntry(value: 3, label: '3'),
+                  DropdownMenuEntry(value: 4, label: '4'),
+                  DropdownMenuEntry(value: 5, label: '5'),
+                ]),
+            const SizedBox(width: 8),
+            const Text('Adult (£7.50)'),
+            const SizedBox(width: 5),
+            const Text('*Discounts will be applied at checkout.',
+                style: TextStyle(fontSize: 9))
+          ]),
+          SizedBox(height: 10),
+          ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Added $maxTickets ticket(s) to cart!')));
+              },
+              child: const Text('Add to order')),
+        ]));
   }
 }
