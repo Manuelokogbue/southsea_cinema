@@ -6,7 +6,7 @@ import 'package:southsea_cinema/models/movie.dart';
 class MovieListing extends StatelessWidget {
   final Movie movie;
 
-  const MovieListing({required this.movie,super.key});
+  const MovieListing({required this.movie, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,6 @@ class MovieListing extends StatelessWidget {
   }
 }
 
-
 class MovieBooking extends StatelessWidget {
   final Movie movie;
 
@@ -33,7 +32,7 @@ class MovieBooking extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -48,28 +47,17 @@ class MovieBooking extends StatelessWidget {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 170,
-                      height: 200,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 89, 115, 151),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Image.asset(
+                      Image.asset(
                         movie.imagePath,
-                        width: 200,
+                        width: 170,
                         height: 200,
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerLeft,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
                     Expanded(
                       child: Text(
-                          movie.showingDateTime,
-                          style:
-                              const TextStyle(fontSize: 16, color: cinemaFontWhite)),
+                          '${movie.description} \n${movie.showingDateTime}',
+                          style: const TextStyle(
+                              fontSize: 16, color: cinemaFontWhite)),
                     ),
                   ],
                 );
@@ -77,24 +65,16 @@ class MovieBooking extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 180,
-                      height: 200,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 89, 115, 151),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Image.asset(
+                      Image.asset(
                         movie.imagePath,
-                        width: 170,
-                        height: 180,
-                        alignment: Alignment.center,
+                        width: 200,
+                        height: 200,
+                        alignment: Alignment.centerLeft,
                       ),
-                    ),
                     const SizedBox(
-                      width: 15,
+                      height: 7,
                     ),
-                    Text(movie.showingDateTime,
+                    Text('${movie.description} \n${movie.showingDateTime}',
                         style: const TextStyle(
                             color: cinemaFontWhite,
                             fontWeight: FontWeight.bold,
@@ -105,7 +85,7 @@ class MovieBooking extends StatelessWidget {
             }),
             const SizedBox(height: 6),
             Text(
-                '${movie.name}, \n ${movie.duration} | ${movie.genre} | ${movie.rating}',
+                '${movie.duration} | ${movie.genre} | ${movie.rating}',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                     fontSize: 16,
@@ -113,7 +93,7 @@ class MovieBooking extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: cinemaFontWhite)),
             const SizedBox(height: 10),
-            Order(movie:movie)
+            Order(movie: movie)
           ],
         ));
   }
@@ -135,11 +115,7 @@ class _Orders extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Book ${widget.movie.name}'),
-        ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             DropdownMenu<int>(
                 initialSelection: maxTickets,
@@ -170,6 +146,6 @@ class _Orders extends State<Order> {
                     content: Text('Added $maxTickets ticket(s) to cart!')));
               },
               child: const Text('Add to order')),
-        ]));
+        ]);
   }
 }
