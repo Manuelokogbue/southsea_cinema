@@ -9,36 +9,36 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          appTitle,
-          style: cinemaHeaderStyle,
+        appBar: AppBar(
+          title: const Text(
+            appTitle,
+            style: cinemaHeaderStyle,
+          ),
+          backgroundColor: cinemaSurface,
+          iconTheme: const IconThemeData(color: cinemaBrand),
+          elevation: 0,
         ),
-        backgroundColor: cinemaSurface,
-        iconTheme: const IconThemeData(color: cinemaBrand),
-        elevation: 0,
-      ),
-      drawer: const NavDrawer(),
-      body:MenuScreen()
-      //
-      // const Center(
-      //   child: Padding(
-      //     padding: EdgeInsets.all(16.0),
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Text(
-      //           'Welcome to $appTitle',
-      //           style: TextStyle(
-      //             color: cinemaFontWhite,
-      //             fontSize: 22,
-      //             fontWeight: FontWeight.bold,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-    );
+        drawer: const NavDrawer(),
+        body: MenuScreen()
+        //
+        // const Center(
+        //   child: Padding(
+        //     padding: EdgeInsets.all(16.0),
+        //     child: Column(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         Text(
+        //           'Welcome to $appTitle',
+        //           style: TextStyle(
+        //             color: cinemaFontWhite,
+        //             fontSize: 22,
+        //             fontWeight: FontWeight.bold,
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        );
   }
 }

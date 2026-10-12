@@ -12,10 +12,10 @@ class MenuScreen extends StatelessWidget {
     final List<Movie> movies = repository.getMovies();
 
     return ListView.builder(
-        itemCount: movies.length,
-        itemBuilder: (context, index) {
-          return MovieCard(movie: movies[index]);
-        },
+      itemCount: movies.length,
+      itemBuilder: (context, index) {
+        return MovieCard(movie: movies[index]);
+      },
     );
   }
 }

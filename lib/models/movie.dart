@@ -1,4 +1,4 @@
-class Movie{
+class Movie {
   final String id;
   final String name;
   final String description;
@@ -10,9 +10,19 @@ class Movie{
   final String genre;
   final double price;
 
-  const Movie({required this.id, required this.name, required this.description, required this.showingDateTime, required this.imagePath, required this.rating, required this.duration, required this.pg, required this.genre, required this.price});
+  const Movie(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.showingDateTime,
+      required this.imagePath,
+      required this.rating,
+      required this.duration,
+      required this.pg,
+      required this.genre,
+      required this.price});
 
-  String get formattedPrice =>'£${price.toStringAsFixed(2)}';
+  String get formattedPrice => '£${price.toStringAsFixed(2)}';
 
   bool get isChildFriendly {
     if (pg == 'U' || pg == 'PG') {
@@ -29,5 +39,4 @@ class Movie{
       return false;
     }
   }
-
 }
