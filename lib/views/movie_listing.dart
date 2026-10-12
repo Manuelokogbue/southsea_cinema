@@ -47,12 +47,12 @@ class MovieBooking extends StatelessWidget {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                      Image.asset(
-                        movie.imagePath,
-                        width: 170,
-                        height: 200,
-                        alignment: Alignment.centerLeft,
-                      ),
+                    Image.asset(
+                      movie.imagePath,
+                      width: 170,
+                      height: 200,
+                      alignment: Alignment.centerLeft,
+                    ),
                     Expanded(
                       child: Text(
                           '${movie.description} \n${movie.showingDateTime}',
@@ -65,12 +65,12 @@ class MovieBooking extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                      Image.asset(
-                        movie.imagePath,
-                        width: 200,
-                        height: 200,
-                        alignment: Alignment.centerLeft,
-                      ),
+                    Image.asset(
+                      movie.imagePath,
+                      width: 200,
+                      height: 200,
+                      alignment: Alignment.centerLeft,
+                    ),
                     const SizedBox(
                       height: 7,
                     ),
@@ -84,8 +84,7 @@ class MovieBooking extends StatelessWidget {
               }
             }),
             const SizedBox(height: 6),
-            Text(
-                '${movie.duration} | ${movie.genre} | ${movie.rating}',
+            Text('${movie.duration} | ${movie.genre} | ${movie.rating}',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                     fontSize: 16,
@@ -116,36 +115,36 @@ class _Orders extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            DropdownMenu<int>(
-                initialSelection: maxTickets,
-                onSelected: (int? value) {
-                  if (value != null) {
-                    setState(() {
-                      maxTickets = value;
-                    });
-                  }
-                },
-                dropdownMenuEntries: const [
-                  DropdownMenuEntry(value: 1, label: '1'),
-                  DropdownMenuEntry(value: 2, label: '2'),
-                  DropdownMenuEntry(value: 3, label: '3'),
-                  DropdownMenuEntry(value: 4, label: '4'),
-                  DropdownMenuEntry(value: 5, label: '5'),
-                ]),
-            const SizedBox(width: 8),
-            const Text('Adult (£7.50)'),
-            const SizedBox(width: 5),
-            const Text('*Discounts will be applied at checkout.',
-                style: TextStyle(fontSize: 9))
-          ]),
-          SizedBox(height: 10),
-          ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Added $maxTickets ticket(s) to cart!')));
-              },
-              child: const Text('Add to order')),
-        ]);
+      Row(children: [
+        DropdownMenu<int>(
+            initialSelection: maxTickets,
+            onSelected: (int? value) {
+              if (value != null) {
+                setState(() {
+                  maxTickets = value;
+                });
+              }
+            },
+            dropdownMenuEntries: const [
+              DropdownMenuEntry(value: 1, label: '1'),
+              DropdownMenuEntry(value: 2, label: '2'),
+              DropdownMenuEntry(value: 3, label: '3'),
+              DropdownMenuEntry(value: 4, label: '4'),
+              DropdownMenuEntry(value: 5, label: '5'),
+            ]),
+        const SizedBox(width: 8),
+        Text(widget.movie.formattedPrice),
+        const SizedBox(width: 5),
+        const Text('*Discounts will be applied at checkout.',
+            style: TextStyle(fontSize: 9))
+      ]),
+      SizedBox(height: 10),
+      ElevatedButton(
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Added $maxTickets ticket(s) to cart!')));
+          },
+          child: const Text('Add to order')),
+    ]);
   }
 }
