@@ -29,7 +29,7 @@ class MovieRepository {
           price: 15.4),
       Movie(
           id: 'Quiet',
-          name: 'A Quiet Place',
+          name: 'A QUIET PLACE',
           description:
               'A family struggles for survival in a world invaded by blind alien creatures with ultra-sensitive hearing.',
           showingDateTime: 'Sunday 1st Nov, 2026 13:15PM',
@@ -40,5 +40,32 @@ class MovieRepository {
           genre: 'Horror',
           price: 7.65)
     ];
+  }
+
+  Movie? getMovieById(String id) {
+    for (final movie in getMovies()) {
+      if (movie.id == id) {
+        return movie;
+      }
+    }
+    return null;
+  }
+
+  Movie? getMovieByAgeRating(String rating) {
+    for (final movie in getMovies()) {
+      if (movie.pg == rating) {
+        return movie;
+      }
+    }
+    return null;
+  }
+
+  Movie? getMoviesUnderPrice(double maxPrice) {
+    for (final movie in getMovies()) {
+      if (movie.price < maxPrice ) {
+        return movie;
+      }
+    }
+    return null;
   }
 }
