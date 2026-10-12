@@ -12,7 +12,7 @@ class MovieRepository {
           imagePath: 'assets/images/Annabelle.jpeg',
           rating: 'IMDB Rating: 7.67',
           duration: '2hrs 45mins',
-          pg: '15',
+          pg: '18',
           genre: 'Horror',
           price: 9.5),
       Movie(
