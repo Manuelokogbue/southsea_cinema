@@ -14,33 +14,37 @@ class MovieCard extends StatelessWidget {
       color: cinemaBackground,
       shadowColor: Colors.black,
       elevation: 20,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30.0),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 20.0,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 13,
+              runSpacing: 4,
               children: [
                 Text(
                   movie.name,
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: cinemaBrandDark,
                   ),
                 ),
-                const SizedBox(width: 13),
                 Text(
-                  'PG(${movie.pg.toString()})',
-                  style: TextStyle(
+                  '(${movie.pg})',
+                  style: const TextStyle(
                     fontSize: 19,
                     color: cinemaFontMuted,
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 10),
             LayoutBuilder(
               builder: (context, constraints) {
@@ -54,36 +58,31 @@ class MovieCard extends StatelessWidget {
                           Image.asset(
                             movie.imagePath,
                             width: 190,
-                            height: 230,
+                            height: 260,
                             fit: BoxFit.cover,
                           ),
                           const SizedBox(width: 13),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  movie.description,
-                                  style: TextStyle(fontSize: 23),
-                                ),
-                              ],
+                            child: Text(
+                              movie.description,
+                              style: const TextStyle(fontSize: 23),
                             ),
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 13),
-
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            movie.showingDateTime,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: cinemaFontWhite,
+                          Expanded(
+                            child: Text(
+                              movie.showingDateTime,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: cinemaFontWhite,
+                              ),
                             ),
                           ),
+                          const SizedBox(width: 12),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF3FB5D9),
@@ -91,9 +90,11 @@ class MovieCard extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) {
-                                  return MovieListing(movie: movie);
-                                }),
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return MovieListing(movie: movie);
+                                  },
+                                ),
                               );
                             },
                             child: const Text(
@@ -112,70 +113,58 @@ class MovieCard extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            movie.imagePath,
-                            width: 120,
-                            height: 160,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(width: 13),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  movie.description,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      Center(
+                        child: Image.asset(
+                          movie.imagePath,
+                          width: 160,
+                          height: 240,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-
+                      const SizedBox(height: 12),
+                      Text(
+                        movie.description,
+                        style: const TextStyle(fontSize: 16),
+                      ),
                       const SizedBox(height: 13),
-
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            movie.showingDateTime,
+                      Text(
+                        movie.showingDateTime,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: cinemaFontWhite,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF3FB5D9),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return MovieListing(movie: movie);
+                                },
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'BOOK NOW',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               color: cinemaFontWhite,
                             ),
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3FB5D9),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return MovieListing(movie: movie);
-                                }),
-                              );
-                            },
-                            child: const Text(
-                              'BOOK NOW',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: cinemaFontWhite,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   );
                 }
               },
             ),
-
             const SizedBox(height: 10),
           ],
         ),
