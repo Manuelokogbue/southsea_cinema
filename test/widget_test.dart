@@ -12,6 +12,5 @@ void main() {
     expect(find.text('HAMILTON'), findsOneWidget);
     expect(find.text('BOOK NOW'), findsNWidgets(2));
     expect(find.byType(ElevatedButton), findsNWidgets(2));
-
   });
 }
