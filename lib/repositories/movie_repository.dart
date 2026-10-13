@@ -34,7 +34,7 @@ class MovieRepository {
               'A family struggles for survival in a world invaded by blind alien creatures with ultra-sensitive hearing.',
           showingDateTime: 'Sunday 1st Nov, 2026 13:15PM',
           imagePath: 'assets/images/Quiet.jpeg',
-          rating: '7.50',
+          rating: 'IMDB Rating: 7.50',
           duration: '1hr 30mins',
           pg: 'PG',
           genre: 'Horror',
