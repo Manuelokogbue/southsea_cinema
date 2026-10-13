@@ -79,6 +79,5 @@ void main() {
 
       expect(movie.isAdultOnly, false);
     });
-
   });
 }

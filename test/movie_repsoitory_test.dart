@@ -3,12 +3,12 @@ import 'package:southsea_cinema/repositories/movie_repository.dart';
 import 'package:southsea_cinema/models/movie.dart';
 
 void main() {
-  group ('MovieRepository unit tests', () {
+  group('MovieRepository unit tests', () {
     test('getMovies returns two movies', () {
       final MovieRepository repository = MovieRepository();
       final List<Movie> movies = repository.getMovies();
 
-      expect (movies.length, 3);
+      expect(movies.length, 3);
     });
 
     test('getMovies conrtain valid movies', () {
@@ -43,8 +43,9 @@ void main() {
 
       expect(movie, isNull);
     });
-    
-    test('getMoviesByAgeRating returns nvalid movies with given age rating', () {
+
+    test('getMoviesByAgeRating returns nvalid movies with given age rating',
+        () {
       final MovieRepository repository = MovieRepository();
       final Movie? movie = repository.getMovieByAgeRating('PG');
 
