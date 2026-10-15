@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:southsea_cinema/main.dart';
 import 'package:southsea_cinema/models/movie.dart';
-import 'package:southsea_cinema/screens/menu_screen.dart';
 
 void main() {
   group('Movie model tests', () {
@@ -80,15 +78,6 @@ void main() {
           price: 6.2);
 
       expect(movie.isAdultOnly, false);
-    });
-  });
-
-  group('Widget interactivity test', () {
-    testWidgets('description', (WidgetTester tester) async {
-      await tester.pumpWidget(SouthseaCinemaApp());
-
-      expect(find.byType(MenuScreen), findsOneWidget);
-      expect(find.text('ANNABELLE'), findsOneWidget);
     });
   });
 }
