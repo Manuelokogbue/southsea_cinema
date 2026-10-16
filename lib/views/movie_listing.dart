@@ -74,7 +74,13 @@ class MovieBooking extends StatelessWidget {
                     const SizedBox(
                       height: 7,
                     ),
-                    Text('${movie.description} \n${movie.showingDateTime}',
+                    Text(movie.description,
+                        style: const TextStyle(
+                            color: cinemaFontWhite,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)),
+                    const SizedBox(height: 10),
+                    Text(movie.showingDateTime,
                         style: const TextStyle(
                             color: cinemaFontWhite,
                             fontWeight: FontWeight.bold,
