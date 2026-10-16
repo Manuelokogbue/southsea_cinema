@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:southsea_cinema/main.dart';
 import 'package:southsea_cinema/views/movie_listing.dart';
 
-
 void main() {
   testWidgets('Basic app loading test', (WidgetTester tester) async {
     await tester.pumpWidget(const SouthseaCinemaApp());
@@ -24,9 +23,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(MovieListing), findsOneWidget);
-      expect(find.text('ANNABELLE'), findsOneWidget);
+      expect(find.text('*Discounts will be applied at checkout.'), findsOneWidget);
       expect(find.byType(ElevatedButton), findsOneWidget);
-
     });
 
     testWidgets('Tapping add to order button', (WidgetTester tester) async {
@@ -43,7 +41,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(SnackBar), findsOneWidget);
-
     });
   });
 }
