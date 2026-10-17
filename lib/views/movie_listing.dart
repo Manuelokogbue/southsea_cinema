@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
 import 'package:southsea_cinema/models/movie.dart';
+import 'package:southsea_cinema/widgets/main_button.dart';
 
 class MovieListing extends StatelessWidget {
   final Movie movie;
@@ -31,12 +32,23 @@ class MovieBooking extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(movie.name,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: cinemaFontWhite)),
+            Row(
+              children: [
+                Text(movie.name,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: cinemaFontWhite)),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text('(${movie.pg})',
+                    textAlign: TextAlign.left,
+                    style:
+                        const TextStyle(fontSize: 18, color: cinemaFontMuted)),
+              ],
+            ),
             LayoutBuilder(builder: (context, constraints) {
               if (constraints.maxWidth > 600) {
                 return Row(
@@ -140,12 +152,13 @@ class _Orders extends State<Order> {
             style: TextStyle(fontSize: 9))
       ]),
       SizedBox(height: 10),
-      ElevatedButton(
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Added $maxTickets ticket(s) to cart!')));
-          },
-          child: const Text('Add to order')),
+      MainButton(
+        label: 'Add to order',
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Added $maxTickets ticket(s) to cart!')));
+        },
+      ),
     ]);
   }
 }
