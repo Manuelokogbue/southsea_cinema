@@ -129,10 +129,8 @@ class MovieCard extends StatelessWidget {
                       const SizedBox(height: 12),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF3FB5D9),
-                          ),
+                        child: MainButton(
+                          label: 'BOOK NOW',
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -143,13 +141,6 @@ class MovieCard extends StatelessWidget {
                               ),
                             );
                           },
-                          child: const Text(
-                            'BOOK NOW',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: cinemaFontWhite,
-                            ),
-                          ),
                         ),
                       ),
                     ],
