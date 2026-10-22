@@ -161,7 +161,7 @@ class _Orders extends State<Order> {
               .addMovie(BasketItem(movie: widget.movie, quantity: tickets));
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
-                  'Added {$tickets} ${widget.movie.name} ticket(s) to basket!')));
+                  'Added $tickets ${widget.movie.name} ticket(s) to basket!')));
         },
       ),
     ]);
