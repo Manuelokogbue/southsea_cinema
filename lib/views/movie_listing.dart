@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
+import 'package:southsea_cinema/models/basket_item.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
 import 'package:southsea_cinema/models/movie.dart';
 import 'package:southsea_cinema/widgets/main_button.dart';
+import 'package:southsea_cinema/repositories/basket_repository.dart';
 
 class MovieListing extends StatelessWidget {
   final Movie movie;
@@ -123,18 +125,18 @@ class Order extends StatefulWidget {
 }
 
 class _Orders extends State<Order> {
-  int maxTickets = 1;
+  int tickets = 1;
 
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         DropdownMenu<int>(
-            initialSelection: maxTickets,
+            initialSelection: tickets,
             onSelected: (int? value) {
               if (value != null) {
                 setState(() {
-                  maxTickets = value;
+                  tickets = value;
                 });
               }
             },
@@ -155,8 +157,11 @@ class _Orders extends State<Order> {
       MainButton(
         label: 'Add to order',
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Added $maxTickets ticket(s) to cart!')));
+          BasketRepository.instance
+              .addMovie(BasketItem(movie: widget.movie, quantity: tickets));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  'Added {$tickets} ${widget.movie.name} ticket(s) to basket!')));
         },
       ),
     ]);
