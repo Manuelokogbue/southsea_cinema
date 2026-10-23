@@ -21,7 +21,7 @@ class _BasketScreenState extends State<BasketScreen> {
       child: Padding(
           padding: EdgeInsets.symmetric(vertical: 32.0),
           child: Text(
-            'No movies in cart',
+            'No tickets in cart',
             style: TextStyle(fontSize: 16, color: Colors.grey),
           )),
     );
