@@ -18,33 +18,34 @@ const Movie testMovie = Movie(
     genre: 'Horror',
     price: 6.2);
 
-  void main() {
-    setUp(() {
-      BasketRepository.instance.empty();
-    });
+void main() {
+  setUp(() {
+    BasketRepository.instance.empty();
+  });
 
-    testWidgets('BasketScreen displays empty message when the basket has no movies', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        home: BasketScreen()
-      ));
+  testWidgets(
+      'BasketScreen displays empty message when the basket has no movies',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: BasketScreen()));
 
-      expect(find.text('No movies in cart'), findsOneWidget);
-    });
+    expect(find.text('No tickets in cart'), findsOneWidget);
+  });
 
-    testWidgets('Test to remove movies when delete icon tapped', (WidgetTester tester) async {
-      const BasketItem movie = BasketItem(movie: testMovie, quantity: 2);
+  testWidgets('Test to remove movies when delete icon tapped',
+      (WidgetTester tester) async {
+    const BasketItem movie = BasketItem(movie: testMovie, quantity: 2);
 
-      BasketRepository.instance.addMovie(movie);
+    BasketRepository.instance.addMovie(movie);
 
-      await tester.pumpWidget(const MaterialApp(home: BasketScreen()));
+    await tester.pumpWidget(const MaterialApp(home: BasketScreen()));
 
-      expect(find.text('MY ORDER'), findsOneWidget);
-      expect(find.text('2 Tickets'), findsOneWidget);
-      expect(find.text('£12.40'), findsOneWidget);
+    expect(find.text('MY ORDER'), findsOneWidget);
+    expect(find.text('2 Tickets'), findsOneWidget);
+    expect(find.text('£12.40'), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.delete_outline));
-      await tester.pump(); 
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pump();
 
-      expect(find.text('No movies in cart'), findsOneWidget);
-    });
-  }
+    expect(find.text('No tickets in cart'), findsOneWidget);
+  });
+}
