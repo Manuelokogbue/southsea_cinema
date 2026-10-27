@@ -140,9 +140,25 @@ class _BasketScreenState extends State<BasketScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         MainButton(label: 'UPDATE ORDER', onPressed: () {}),
-        MainButton(label: 'BUY TICKETS', onPressed: () {})
+        MainButton(
+            label: 'BUY TICKETS',
+            onPressed: () {
+              setState(() {
+                basket.empty();
+                _finalmessage =
+                    'Thanks, your tickets will be sent to your email address.';
+              });
+            })
       ],
     ));
+
+    if (_finalmessage.isNotEmpty) {
+      children.add(const SizedBox(
+        height: 12,
+      ));
+      children.add(Text(_finalmessage,
+          style: const TextStyle(fontWeight: FontWeight.bold)));
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,8 +179,10 @@ class _BasketScreenState extends State<BasketScreen> {
           children: [
             _buildEmptyState(),
             const SizedBox(height: 15),
-            Text(_finalmessage,
-                style: const TextStyle(fontWeight: FontWeight.bold))
+            Center(
+              child: Text(_finalmessage,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+            )
           ],
         );
       } else {
