@@ -6,9 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String prefAddress = 'user_address';
 const String prefEmail = 'user_email';
-const int prefPatronNo = 0;
+const String prefPatronNo = 'user_patron_no';
 const String prefNews = 'user_news';
-
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -30,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final SharedPreferencesAsync prefs = SharedPreferencesAsync();
     final String? savedAddress = await prefs.getString(prefAddress);
     final String? savedEmail = await prefs.getString(prefEmail);
-    final int? savedPatronNo = await prefs.getInt(prefPatronNo as String);
+    final String? savedPatronNo = await prefs.getString(prefPatronNo);
     final bool? savedNews = await prefs.getBool(prefNews);
 
     String address = '';
@@ -43,9 +42,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       email = savedEmail;
     }
 
-    int patronnu = 0;
-    if (savedPatronNo! > 0) {
-        patronnu = savedPatronNo;
+    String patronnu = '';
+    if (savedPatronNo != null) {
+      patronnu = savedPatronNo;
     }
     bool newslet = false;
     if (savedNews != null) {
@@ -69,6 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _addressController = TextEditingController();
     _emailController = TextEditingController();
     _patronNoController = TextEditingController();
+    _loadSettings();
   }
 
   @override
@@ -82,12 +82,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _saveSettings() async {
     final String address = _addressController.text.trim();
     final String email = _emailController.text.trim();
-    final int patronNo = int.parse(_patronNoController.text.trim());
+    final String patronNo = _patronNoController.text.trim();
     final SharedPreferencesAsync prefs = SharedPreferencesAsync();
 
     await prefs.setString(prefAddress, address);
     await prefs.setString(prefEmail, email);
-    await prefs.setInt(prefPatronNo as String, patronNo);
+    await prefs.setString(prefPatronNo, patronNo);
     await prefs.setBool(prefNews, _receiveNews);
 
     final CustomerSettings settings = CustomerSettings(
