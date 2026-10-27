@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/models/customer_settings.dart';
 import 'package:southsea_cinema/widgets/main_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+const String prefAddress = 'user_address';
+const String prefEmail = 'user_email';
+const int prefPatronNo = 0;
+const String prefNews = 'user_news';
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -19,6 +26,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _receiveNews = false;
   String _confirmationMessage = '';
 
+  Future<void> _loadSettings() async {
+    final SharedPreferencesAsync prefs = SharedPreferencesAsync();
+    final String? savedAddress = await prefs.getString(prefAddress);
+    final String? savedEmail = await prefs.getString(prefEmail);
+    final int? savedPatronNo = await prefs.getInt(prefPatronNo as String);
+    final bool? savedNews = await prefs.getBool(prefNews);
+
+    String address = '';
+    if (savedAddress != null) {
+      address = savedAddress;
+    }
+
+    String email = '';
+    if (savedEmail != null) {
+      email = savedEmail;
+    }
+
+    int patronnu = 0;
+    if (savedPatronNo! > 0) {
+        patronnu = savedPatronNo;
+    }
+    bool newslet = false;
+    if (savedNews != null) {
+      newslet = savedNews;
+    }
+
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _addressController.text = address;
+      _emailController.text = email;
+      _patronNoController.text = patronnu.toString();
+      _receiveNews = newslet;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -35,10 +79,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.dispose();
   }
 
-  void _saveSettings() {
+  Future<void> _saveSettings() async {
     final String address = _addressController.text.trim();
     final String email = _emailController.text.trim();
     final int patronNo = int.parse(_patronNoController.text.trim());
+    final SharedPreferencesAsync prefs = SharedPreferencesAsync();
+
+    await prefs.setString(prefAddress, address);
+    await prefs.setString(prefEmail, email);
+    await prefs.setInt(prefPatronNo as String, patronNo);
+    await prefs.setBool(prefNews, _receiveNews);
 
     final CustomerSettings settings = CustomerSettings(
       address: address,
@@ -47,6 +97,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       receiveNews: _receiveNews,
     );
 
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _confirmationMessage = 'Settings saved!';
     });
