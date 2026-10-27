@@ -6,7 +6,7 @@ void main() {
     const CustomerSettings settings = CustomerSettings();
     expect(settings.address, isEmpty);
     expect(settings.email, isEmpty);
-    expect(settings.patronNo, 1234);
+    expect(settings.patronNo, '');
     expect(settings.receiveNews, isFalse);
   });
 
@@ -14,13 +14,13 @@ void main() {
     const CustomerSettings settings = CustomerSettings(
       address: '3, Hampton Lake Estate, Chevron Drive',
       email: 'Sucros1245@gmail.com',
-      patronNo: 15342,
+      patronNo: '263543',
       receiveNews: true,
     );
 
     expect(settings.address, '3, Hampton Lake Estate, Chevron Drive');
     expect(settings.email, 'Sucros1245@gmail.com');
-    expect(settings.patronNo, 15342);
+    expect(settings.patronNo, '263543');
     expect(settings.receiveNews, true);
   });
 }
