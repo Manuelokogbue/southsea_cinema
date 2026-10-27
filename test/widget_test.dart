@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:southsea_cinema/main.dart';
 import 'package:southsea_cinema/views/movie_listing.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  setUp(() {
+    rootBundle.clear();
+  });
   testWidgets('Basic app loading test', (WidgetTester tester) async {
     await tester.pumpWidget(const SouthseaCinemaApp());
     await tester.pumpAndSettle();
@@ -18,6 +22,7 @@ void main() {
   group('Widget interactivity test', () {
     testWidgets('Tapping the book now button', (WidgetTester tester) async {
       await tester.pumpWidget(SouthseaCinemaApp());
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('BOOK NOW').first);
       await tester.pumpAndSettle();
@@ -29,6 +34,7 @@ void main() {
 
     testWidgets('Tapping add to order button', (WidgetTester tester) async {
       await tester.pumpWidget(SouthseaCinemaApp());
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('BOOK NOW').first);
       await tester.pumpAndSettle();

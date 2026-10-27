@@ -79,5 +79,53 @@ void main() {
 
       expect(movie.isAdultOnly, false);
     });
+
+    test('JSON conversion works with every movie field', () {
+      final Map<String, dynamic> data = <String, dynamic>{
+        'id': "Anna",
+        "name": "ANNABELLE",
+        "description":
+            "A couple begins to experience terrifying supernatural occurrences involving a vintage doll shortly after their home is invaded by satanic cultists.",
+        "showingDateTime": "Friday 30th Oct, 2026 12:00PM",
+        "imagePath": "assets/images/Annabelle.jpeg",
+        "rating": "IMDB Rating: 7.67",
+        "duration": "2hrs 45mins",
+        "pg": "18",
+        "genre": "Horror",
+        "price": 9.5
+      };
+
+      final Movie movie = Movie.fromJson(data);
+      expect(movie.id, 'Anna');
+      expect(movie.name, 'ANNABELLE');
+      expect(movie.description,
+          "A couple begins to experience terrifying supernatural occurrences involving a vintage doll shortly after their home is invaded by satanic cultists.");
+      expect(movie.showingDateTime, "Friday 30th Oct, 2026 12:00PM");
+      expect(movie.duration, "2hrs 45mins");
+      expect(movie.imagePath, "assets/images/Annabelle.jpeg");
+      expect(movie.price, 9.5);
+      expect(movie.genre, 'Horror');
+      expect(movie.rating, "IMDB Rating: 7.67");
+    });
+
+    test('fromJson accepts whole number price', () {
+      final Map<String, dynamic> data = <String, dynamic>{
+        'id': 'Wed',
+        'name': 'Wednesday',
+        'description':
+            'Discover the mysteries of the unknown land with Wednesday Addams',
+        'showingDateTime': 'Friday 30th OCt, 2026 16:45PM',
+        'imagePath': 'assets/images/Annabelle',
+        'rating': '8.90',
+        'duration': '1hr 55mins',
+        'pg': 'PG',
+        'genre': 'Horror',
+        'price': 6
+      };
+      final Movie movie = Movie.fromJson(data);
+
+      expect(movie.price, 6.0);
+      expect(movie.price, isA<double>());
+    });
   });
 }

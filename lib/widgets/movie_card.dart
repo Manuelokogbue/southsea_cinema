@@ -61,6 +61,17 @@ class MovieCard extends StatelessWidget {
                             width: 190,
                             height: 260,
                             fit: BoxFit.cover,
+                            errorBuilder: (
+                              BuildContext context,
+                              Object error,
+                              StackTrace? stackTrace,
+                            ) {
+                              return const SizedBox(
+                                width: 190,
+                                height: 260,
+                                child: Center(child: Text('Image unavailable')),
+                              );
+                            },
                           ),
                           const SizedBox(width: 13),
                           Expanded(
@@ -111,6 +122,17 @@ class MovieCard extends StatelessWidget {
                           width: 160,
                           height: 240,
                           fit: BoxFit.cover,
+                          errorBuilder: (
+                            BuildContext context,
+                            Object error,
+                            StackTrace? stackTrace,
+                          ) {
+                            return const SizedBox(
+                              width: 160,
+                              height: 240,
+                              child: Center(child: Text('Image unavailable')),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(height: 12),
