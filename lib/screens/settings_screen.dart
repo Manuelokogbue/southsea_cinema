@@ -90,6 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString(prefPatronNo, patronNo);
     await prefs.setBool(prefNews, _receiveNews);
 
+    // ignore: unused_local_variable
     final CustomerSettings settings = CustomerSettings(
       address: address,
       email: email,
