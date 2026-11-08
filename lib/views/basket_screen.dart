@@ -137,11 +137,13 @@ class _BasketScreenState extends State<BasketScreen> {
       height: 20,
     ));
 
-    children.add(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        MainButton(label: 'UPDATE ORDER', onPressed: () {}),
-        MainButton(
+    children.add(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MainButton(label: 'UPDATE ORDER', onPressed: () {}),
+          const SizedBox(width: 8),
+          MainButton(
             label: 'BUY TICKETS',
             onPressed: () {
               setState(() {
@@ -149,9 +151,11 @@ class _BasketScreenState extends State<BasketScreen> {
                 _finalmessage =
                     'Thanks, your tickets will be sent to your email address.';
               });
-            })
-      ],
-    ));
+            },
+          ),
+        ],
+      ),
+    );
 
     if (_finalmessage.isNotEmpty) {
       children.add(const SizedBox(
