@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/views/home_view.dart';
-import 'package:southsea_cinema/screens/basket_screen.dart';
-import 'package:southsea_cinema/screens/settings_screen.dart';
+import 'package:southsea_cinema/views/basket_screen.dart';
+import 'package:southsea_cinema/views/settings_screen.dart';
 
 void main() {
   runApp(const SouthseaCinemaApp());

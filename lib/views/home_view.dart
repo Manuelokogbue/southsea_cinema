@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
-import 'package:southsea_cinema/screens/menu_screen.dart';
+import 'package:southsea_cinema/views/menu_screen.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
 
 class HomeView extends StatelessWidget {
