@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/models/basket_item.dart';
 import 'package:southsea_cinema/models/movie.dart';
-import 'package:southsea_cinema/screens/basket_screen.dart';
+import 'package:southsea_cinema/views/basket_screen.dart';
 import 'package:southsea_cinema/repositories/basket_repository.dart';
 
 const Movie testMovie = Movie(
