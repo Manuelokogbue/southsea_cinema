@@ -16,6 +16,6 @@ class MainButton extends StatelessWidget {
             shape:
                 const RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
         onPressed: onPressed,
-        child: Text(label, style: TextStyle(fontSize: 21)));
+        child: Text(label, style: TextStyle(fontSize: 20)));
   }
 }
