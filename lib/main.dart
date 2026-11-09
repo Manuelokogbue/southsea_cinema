@@ -3,6 +3,7 @@ import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/views/home_view.dart';
 import 'package:southsea_cinema/views/basket_screen.dart';
 import 'package:southsea_cinema/views/settings_screen.dart';
+import 'package:southsea_cinema/views/bookings_screen.dart';
 
 void main() {
   runApp(const SouthseaCinemaApp());
@@ -40,6 +41,9 @@ class SouthseaCinemaApp extends StatelessWidget {
           },
           '/settings': (BuildContext context) {
             return SettingsScreen();
+          },
+          '/bookings': (BuildContext context) {
+            return const BookingsScreen();
           }
         }
 
