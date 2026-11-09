@@ -4,6 +4,9 @@ import 'package:southsea_cinema/repositories/basket_repository.dart';
 import 'package:southsea_cinema/widgets/main_button.dart';
 import 'package:southsea_cinema/models/basket_item.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
+import 'package:southsea_cinema/models/booking.dart';
+import 'package:southsea_cinema/database/cinema_db.dart';
+
 
 class BasketScreen extends StatefulWidget {
   const BasketScreen({super.key});
@@ -16,6 +19,51 @@ class BasketScreen extends StatefulWidget {
 
 class _BasketScreenState extends State<BasketScreen> {
   String _finalmessage = '';
+
+  String _buildSummary(List <BasketItem> movies) {
+    final List<String> parts = [];
+    for (final BasketItem movie in movies) {
+      parts.add('${movie.quantity}x ${movie.movie.name}');
+    }
+    return parts.join(', ');
+  }
+
+  String _formatDate(DateTime now) {
+    final String day = now.day.toString().padLeft(2, '0');
+    final String month = now.month.toString().padLeft(2, '0');
+    final String hour = now.hour.toString().padLeft(2, '0');
+    final String minute = now.minute.toString().padLeft(2, '0');
+    return '$day/$month/${now.year} $hour:$minute';
+  }
+
+  Future<void> _checkout(BasketRepository basket, List<BasketItem> movies) async {
+    final String summary = _buildSummary(movies);
+    final double total =basket.getAmountDue();
+    final String date = _formatDate(DateTime.now());
+
+    try {
+      final CinemaDatabase database = CinemaDatabase.instance;
+      final int bookingNumber = await database.getNextBookingNumber();
+      final BookingRecord record = BookingRecord(bookingNumber: bookingNumber, summary: summary, total: total, date: date);
+
+      await database.insertOrder(record);
+      basket.empty();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _finalmessage = 'Booking $bookingNumber saved!';
+      });
+      Navigator.pushNamed(context, '/bookings');
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _finalmessage = 'Could not save your booking: $error';
+      });
+    }
+  }
 
   Widget _buildEmptyState() {
     return const Center(
@@ -145,12 +193,7 @@ class _BasketScreenState extends State<BasketScreen> {
           const SizedBox(width: 8),
           MainButton(
             label: 'BUY TICKETS',
-            onPressed: () {
-              setState(() {
-                basket.empty();
-                _finalmessage =
-                    'Thanks, your tickets will be sent to your email address.';
-              });
+            onPressed: () {_checkout(basket, movies);
             },
           ),
         ],
