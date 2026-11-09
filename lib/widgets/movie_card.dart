@@ -13,8 +13,6 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: cinemaBackground,
-      shadowColor: Colors.black,
-      elevation: 20,
       margin: const EdgeInsets.symmetric(
         horizontal: 16.0,
         vertical: 20.0,
