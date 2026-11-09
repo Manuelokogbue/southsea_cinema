@@ -3,9 +3,9 @@ import 'package:southsea_cinema/models/movie.dart';
 import 'package:southsea_cinema/repositories/basket_repository.dart';
 import 'package:southsea_cinema/models/basket_item.dart';
 
-const Movie testMovie1 = Movie(id: 'Anna', name: 'Annabelle', description: 'Test description', showingDateTime: 'Sometime soon', imagePath: 'assets/images/Annabelle.jpeg', rating: '8.9', duration: 'Duration', pg: 'PG', genre: 'Horror', price: 7.60);
+const Movie testMovie1 = Movie(id: 'Anna', name: 'Annabelle', description: 'Test description', showingDateTime: 'Sometime soon', imagePath: 'assets/images/annabelle.jpeg', rating: '8.9', duration: 'Duration', pg: 'PG', genre: 'Horror', price: 7.60);
 
-const Movie testMovie2 = Movie(id: 'Ham', name: 'Hamilton', description: 'Test Ham', showingDateTime: '1807', imagePath: 'assets/images/Hamilton.jpeg', rating: '9.6', duration: '200', pg: '18', genre: 'Musical', price: 15.40);
+const Movie testMovie2 = Movie(id: 'Ham', name: 'Hamilton', description: 'Test Ham', showingDateTime: '1807', imagePath: 'assets/images/hamilton.jpeg', rating: '9.6', duration: '200', pg: '18', genre: 'Musical', price: 15.40);
 
 void main() {
   setUp(() {
