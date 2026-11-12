@@ -89,7 +89,7 @@ class _BookingScreenState extends State<BookingsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Order #${booking.bookingNumber}',
+                  'Booking #${booking.bookingNumber}',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text('£${booking.total.toStringAsFixed(2)}'),
