@@ -159,4 +159,29 @@ void main() {
     await versionTwo.close();
     await databaseFactoryFfiNoIsolate.deleteDatabase(databasePath);
   });
+
+  test('Closing a closed database does not return any error', () async {
+    await CinemaDatabase.instance.close();
+
+    await CinemaDatabase.instance.close();
+
+    expect(true, isTrue);
+  });
+
+  test('Booking can be saved without order items', () async {
+    final BookingRecord booking = buildRecord(1016, 'No items', 0.0);
+
+    await CinemaDatabase.instance.insertOrder(booking);
+
+    final bookings = await CinemaDatabase.instance.getAllOrders();
+
+    expect(bookings.length, 1);
+    expect(bookings.first.summary, 'No items');
+  });
+
+  test('Database opens successfully', () async {
+    final Database db = await CinemaDatabase.instance.database;
+
+    expect(db.isOpen, isTrue);
+  });
 }
