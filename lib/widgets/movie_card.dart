@@ -11,8 +11,10 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color foreground = Theme.of(context).colorScheme.onSurface;
+    final Color muted = Theme.of(context).colorScheme.onSurfaceVariant;
     return Card(
-      color: cinemaBackground,
+      color: Theme.of(context).colorScheme.surface,
       margin: const EdgeInsets.symmetric(
         horizontal: 16.0,
         vertical: 20.0,
@@ -37,9 +39,9 @@ class MovieCard extends StatelessWidget {
                 ),
                 Text(
                   '(${movie.pg})',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 19,
-                    color: cinemaFontMuted,
+                    color: muted,
                   ),
                 ),
               ],
@@ -75,7 +77,10 @@ class MovieCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               movie.description,
-                              style: const TextStyle(fontSize: 23),
+                              style: TextStyle(
+                                fontSize: 23,
+                                color: foreground,
+                              ),
                             ),
                           ),
                         ],
@@ -86,9 +91,9 @@ class MovieCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               movie.showingDateTime,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 20,
-                                color: cinemaFontWhite,
+                                color: foreground,
                               ),
                             ),
                           ),
@@ -136,14 +141,17 @@ class MovieCard extends StatelessWidget {
                       const SizedBox(height: 12),
                       Text(
                         movie.description,
-                        style: const TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: foreground,
+                        ),
                       ),
                       const SizedBox(height: 13),
                       Text(
                         movie.showingDateTime,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
-                          color: cinemaFontWhite,
+                          color: foreground,
                         ),
                       ),
                       const SizedBox(height: 12),

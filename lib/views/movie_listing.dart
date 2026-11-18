@@ -28,6 +28,8 @@ class MovieBooking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color foreground = Theme.of(context).colorScheme.onSurface;
+    final Color muted = Theme.of(context).colorScheme.onSurfaceVariant;
     return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(10),
@@ -38,17 +40,16 @@ class MovieBooking extends StatelessWidget {
               children: [
                 Text(movie.name,
                     textAlign: TextAlign.left,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: cinemaFontWhite)),
+                        color: foreground)),
                 const SizedBox(
                   width: 10,
                 ),
                 Text('(${movie.pg})',
                     textAlign: TextAlign.left,
-                    style:
-                        const TextStyle(fontSize: 18, color: cinemaFontMuted)),
+                    style: TextStyle(fontSize: 18, color: muted)),
               ],
             ),
             LayoutBuilder(builder: (context, constraints) {
@@ -65,8 +66,7 @@ class MovieBooking extends StatelessWidget {
                     Expanded(
                       child: Text(
                           '${movie.description} \n${movie.showingDateTime}',
-                          style: const TextStyle(
-                              fontSize: 16, color: cinemaFontWhite)),
+                          style: TextStyle(fontSize: 16, color: foreground)),
                     ),
                   ],
                 );
@@ -84,14 +84,14 @@ class MovieBooking extends StatelessWidget {
                       height: 7,
                     ),
                     Text(movie.description,
-                        style: const TextStyle(
-                            color: cinemaFontWhite,
+                        style: TextStyle(
+                            color: foreground,
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
                     const SizedBox(height: 10),
                     Text(movie.showingDateTime,
-                        style: const TextStyle(
-                            color: cinemaFontWhite,
+                        style: TextStyle(
+                            color: foreground,
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
                   ],
@@ -101,11 +101,11 @@ class MovieBooking extends StatelessWidget {
             const SizedBox(height: 6),
             Text('${movie.duration} | ${movie.genre} | ${movie.rating}',
                 textAlign: TextAlign.left,
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 16,
                     height: 2,
                     fontWeight: FontWeight.bold,
-                    color: cinemaFontWhite)),
+                    color: foreground)),
             const SizedBox(height: 10),
             Order(movie: movie)
           ],
