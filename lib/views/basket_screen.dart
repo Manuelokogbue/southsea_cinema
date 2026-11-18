@@ -5,6 +5,7 @@ import 'package:southsea_cinema/widgets/main_button.dart';
 import 'package:southsea_cinema/models/basket_item.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
 import 'package:southsea_cinema/models/booking.dart';
+import 'package:southsea_cinema/models/order_item.dart';
 import 'package:southsea_cinema/database/cinema_db.dart';
 
 class BasketScreen extends StatefulWidget {
@@ -18,6 +19,16 @@ class BasketScreen extends StatefulWidget {
 
 class _BasketScreenState extends State<BasketScreen> {
   String _finalmessage = '';
+  List<BookingRecord> _pastBookings = [];
+  Map<int, List<OrderItem>> _pastItemsByBooking = <int, List<OrderItem>>{};
+  bool _loadingPastOrders = true;
+  String _pastOrdersError = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPastOrders();
+  }
 
   String _buildSummary(List<BasketItem> movies) {
     final List<String> parts = [];
@@ -50,7 +61,19 @@ class _BasketScreenState extends State<BasketScreen> {
           total: total,
           date: date);
 
-      await database.insertOrder(record);
+      final List<OrderItem> items = movies
+          .map(
+            (BasketItem item) => OrderItem(
+              movieName: item.movie.name,
+              showingDateTime: item.movie.showingDateTime,
+              quantity: item.quantity,
+              unitPrice: item.movie.price,
+              lineTotal: item.movieTotal,
+            ),
+          )
+          .toList();
+
+      await database.insertBookingWithItems(record, items);
       basket.empty();
       if (!mounted) {
         return;
@@ -58,14 +81,58 @@ class _BasketScreenState extends State<BasketScreen> {
       setState(() {
         _finalmessage = 'Booking $bookingNumber saved!';
       });
+      _loadPastOrders();
       Navigator.pushNamed(context, '/bookings');
     } catch (error) {
       if (!mounted) {
         return;
       }
+      final String message = 'Could not save your booking: $error';
       setState(() {
-        _finalmessage = 'Could not save your booking: $error';
+        _finalmessage = message;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+  }
+
+  Future<void> _loadPastOrders() async {
+    try {
+      final CinemaDatabase database = CinemaDatabase.instance;
+      final List<BookingRecord> bookings = await database.getAllOrders();
+      final List<OrderItem> items = await database.getAllOrderItems();
+      final Map<int, List<OrderItem>> itemsByBooking = <int, List<OrderItem>>{};
+
+      for (final OrderItem item in items) {
+        final int? bookingId = item.bookingId;
+        if (bookingId == null) {
+          continue;
+        }
+        itemsByBooking.putIfAbsent(bookingId, () => <OrderItem>[]).add(item);
+      }
+
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _pastBookings = bookings;
+        _pastItemsByBooking = itemsByBooking;
+        _loadingPastOrders = false;
+        _pastOrdersError = '';
+      });
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      final String message = 'Could not load past orders: $error';
+      setState(() {
+        _loadingPastOrders = false;
+        _pastOrdersError = message;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -219,6 +286,71 @@ class _BasketScreenState extends State<BasketScreen> {
     );
   }
 
+  Widget _buildPastOrder(BookingRecord booking) {
+    final List<OrderItem> items = _pastItemsByBooking[booking.id] ?? [];
+    return Card(
+      color: Theme.of(context).colorScheme.surface,
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Booking #${booking.bookingNumber}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(booking.date),
+            const SizedBox(height: 8),
+            if (items.isEmpty)
+              Text(booking.summary)
+            else
+              for (final OrderItem item in items)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    '${item.quantity}x ${item.movieName}\n'
+                    '${item.showingDateTime}\n'
+                    'Unit price: £${item.unitPrice.toStringAsFixed(2)} | '
+                    'Item total: £${item.lineTotal.toStringAsFixed(2)}',
+                  ),
+                ),
+            Text('Total: £${booking.total.toStringAsFixed(2)}'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPastOrders() {
+    if (_loadingPastOrders) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+    if (_pastOrdersError.isNotEmpty) {
+      return Text(_pastOrdersError);
+    }
+    if (_pastBookings.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        const Text(
+          'PAST ORDERS',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        for (final BookingRecord booking in _pastBookings)
+          _buildPastOrder(booking),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final BasketRepository basket = BasketRepository.instance;
@@ -247,8 +379,16 @@ class _BasketScreenState extends State<BasketScreen> {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(title: const Text(appTitle)),
-      body:
-          SingleChildScrollView(padding: EdgeInsets.all(20.0), child: content),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            content,
+            _buildPastOrders(),
+          ],
+        ),
+      ),
     );
   }
 }
