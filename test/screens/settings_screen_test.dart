@@ -18,7 +18,7 @@ void main() {
 
     expect(find.text('My Settings'), findsOneWidget);
     expect(find.byType(TextField), findsNWidgets(3));
-    expect(find.byType(Switch), findsOneWidget);
+    expect(find.byType(Switch), findsNWidgets(2));
     expect(find.text('SAVE SETTINGS'), findsOneWidget);
   });
 
@@ -38,7 +38,9 @@ void main() {
     await tester.enterText(addressField, '15 Alex Close, Portsmouth');
     await tester.enterText(emailField, 'tommy12@gmail.com');
 
-    final Finder switchFinder = find.byType(Switch);
+    final Finder switchFinder = find.byKey(
+      const ValueKey<String>('news-switch'),
+    );
     expect(tester.widget<Switch>(switchFinder).value, isFalse);
     await tester.tap(switchFinder);
     await tester.pump();
@@ -72,7 +74,9 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('2615'), findsOneWidget);
-    final Switch reopenedSwitch = tester.widget<Switch>(find.byType(Switch));
+    final Switch reopenedSwitch = tester.widget<Switch>(
+      find.byKey(const ValueKey<String>('news-switch')),
+    );
     expect(reopenedSwitch.value, isTrue);
   });
 
@@ -93,7 +97,32 @@ void main() {
     expect(find.text('Portsmouth Guildhall, PO1 2AJ'), findsOneWidget);
     expect(find.text('yasan.tommy@port.ac.uk'), findsOneWidget);
     expect(find.text('5624'), findsOneWidget);
-    final Switch switchWidget = tester.widget<Switch>(find.byType(Switch));
+    final Switch switchWidget = tester.widget<Switch>(
+      find.byKey(const ValueKey<String>('news-switch')),
+    );
     expect(switchWidget.value, isTrue);
+  });
+
+  testWidgets('Theme switch updates and persists the selected mode', (
+    WidgetTester tester,
+  ) async {
+    ThemeMode? selectedMode;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SettingsScreen(
+          onThemeModeChanged: (ThemeMode mode) {
+            selectedMode = mode;
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey<String>('theme-switch')));
+    await tester.pumpAndSettle();
+
+    expect(selectedMode, ThemeMode.light);
+    final SharedPreferencesAsync prefs = SharedPreferencesAsync();
+    expect(await prefs.getString(prefThemeMode), 'light');
   });
 }
