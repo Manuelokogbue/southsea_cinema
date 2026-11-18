@@ -42,7 +42,7 @@ class _BookingScreenState extends State<BookingsScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appTitle, style: cinemaHeaderStyle),
+        title: const Text(appTitle),
       ),
       body: body,
     );
