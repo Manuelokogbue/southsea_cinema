@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:southsea_cinema/models/booking.dart';
+import 'package:southsea_cinema/models/order_item.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CinemaDatabase {
@@ -26,8 +27,13 @@ class CinemaDatabase {
   Future<Database> _initDB(String fileName) async {
     final String folder = await getDatabasesPath();
     final String filepath = join(folder, fileName);
-    final Database db =
-        await openDatabase(filepath, version: 1, onCreate: _createDB);
+    final Database db = await openDatabase(
+      filepath,
+      version: 2,
+      onConfigure: configureDatabase,
+      onCreate: _createDB,
+      onUpgrade: onUpgrade,
+    );
     return db;
   }
 
@@ -40,6 +46,36 @@ class CinemaDatabase {
         total REAL NOT NULL,
         date TEXT NOT NULL)
     ''');
+    await _createOrdersTable(db);
+  }
+
+  Future<void> _createOrdersTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS orders (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        booking_id INTEGER NOT NULL,
+        movie_name TEXT NOT NULL,
+        showing_date_time TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        unit_price REAL NOT NULL,
+        line_total REAL NOT NULL,
+        FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE
+      )
+    ''');
+  }
+
+  Future<void> configureDatabase(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
+
+  Future<void> onUpgrade(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    if (oldVersion < 2) {
+      await _createOrdersTable(db);
+    }
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -73,6 +109,27 @@ class CinemaDatabase {
     return id;
   }
 
+  Future<int> insertBookingWithItems(
+    BookingRecord booking,
+    List<OrderItem> items,
+  ) async {
+    final Database db = await database;
+    return db.transaction((Transaction transaction) async {
+      final int bookingId = await transaction.insert(
+        'bookings',
+        booking.toMap(),
+      );
+
+      for (final OrderItem item in items) {
+        final Map<String, Object?> itemData = item.toMap();
+        itemData['booking_id'] = bookingId;
+        await transaction.insert('orders', itemData);
+      }
+
+      return bookingId;
+    });
+  }
+
   Future<List<BookingRecord>> getAllOrders() async {
     final Database db = await database;
     final List<Map<String, Object?>> records = await db.query(
@@ -85,6 +142,16 @@ class CinemaDatabase {
       bookings.add(BookingRecord.fromMap(row));
     }
     return bookings;
+  }
+
+  Future<List<OrderItem>> getAllOrderItems() async {
+    final Database db = await database;
+    final List<Map<String, Object?>> records = await db.query(
+      'orders',
+      orderBy: 'booking_id DESC, id ASC',
+    );
+
+    return records.map(OrderItem.fromMap).toList();
   }
 
   Future<int> getNextBookingNumber() async {
