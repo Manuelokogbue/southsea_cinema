@@ -14,7 +14,9 @@ A Flutter cinema-booking app for browsing films, selecting tickets, managing a b
 - Remove films from the basket.
 - Complete a booking and save it locally.
 - Generate booking numbers automatically.
-- View previous bookings.
+- View previous bookings and past orders below the current basket.
+- Preserve detailed item information for new orders.
+- Continue showing summaries for older bookings created before item history was added.
 - Save an address, email address, patron number, and newsletter preference.
 - Switch between light and dark mode.
 - Remember the selected theme between app launches.
@@ -164,7 +166,12 @@ assets/images/
 
 Customer settings and theme preferences are saved using `shared_preferences`.
 
-Bookings are saved in a local SQLite database. No external payment service or online booking service is currently connected.
+Bookings and purchased item details are saved in a local SQLite database.
+The database uses version 2 with foreign-key support. Existing version 1
+bookings are preserved during upgrade, and older bookings continue to use their
+saved summary when no item-level records are available.
+
+No external payment service or online booking service is currently connected.
 
 ## Current Limitations
 
