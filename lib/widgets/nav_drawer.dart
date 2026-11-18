@@ -6,8 +6,9 @@ class NavDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color surface = Theme.of(context).colorScheme.surface;
     return Drawer(
-      backgroundColor: cinemaBackground,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -15,14 +16,14 @@ class NavDrawer extends StatelessWidget {
             Container(
               height: 60,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              color: cinemaSurface,
+              color: surface,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       appTitle,
-                      style: cinemaHeaderStyle,
+                      style: Theme.of(context).appBarTheme.titleTextStyle,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -56,12 +57,19 @@ class DrawerTile extends StatelessWidget {
   final String title;
   final String? route;
 
-  const DrawerTile({super.key, required this.title, this.route});
+  const DrawerTile({
+    super.key,
+    required this.title,
+    this.route,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title, style: const TextStyle(color: cinemaFontWhite)),
+      title: Text(
+        title,
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+      ),
       onTap: () {
         Navigator.pop(context);
         if (route != null) {
